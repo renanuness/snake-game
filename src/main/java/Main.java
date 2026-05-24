@@ -1,27 +1,24 @@
-import static com.raylib.Colors.*;
 import static com.raylib.Raylib.*;
+import static com.raylib.Colors.*;
 
 public class Main {
-    public static void main(String args[]) {
-        InitWindow(800, 450, "Demo");
+    public static void main(String[] args){
+        int screenWidth = 800;
+        int screenHeight = 450;
+        InitWindow(screenWidth, screenHeight, "Snake Game");
         SetTargetFPS(60);
-        Camera3D camera = new Camera3D()
-                ._position(new Vector3().x(18).y(16).z(18))
-                .target(new Vector3())
-                .up(new Vector3().x(0).y(1).z(0))
-                .fovy(45).projection(CAMERA_PERSPECTIVE);
 
-        while (!WindowShouldClose()) {
-            UpdateCamera(camera, CAMERA_ORBITAL);
+        while (!WindowShouldClose()){
             BeginDrawing();
+
             ClearBackground(RAYWHITE);
-            BeginMode3D(camera);
-            DrawGrid(20, 1.0f);
-            EndMode3D();
-            DrawText("Hello world", 190, 200, 20, VIOLET);
-            DrawFPS(20, 20);
+
+            DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+
             EndDrawing();
         }
+
         CloseWindow();
+        System.exit(0);
     }
 }
