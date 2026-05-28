@@ -1,4 +1,7 @@
 package ports;
 
-public class Renderer {
+import domain.Snake;
+
+public interface Renderer {
+    void drawSnake(Snake snake);
 }

@@ -3,61 +3,38 @@ package domain;
 import java.util.*;
 
 public class Snake {
-    private SnakeDirection direction;
-    private Position position;
-    private List<SnakePoint> body;
-
+    private SnakeBody newBody;
 
     public Snake(Position initialPosition, SnakeDirection initialDirection, int bodySize){
-        position = initialPosition;
-        direction = initialDirection;
-        body = new ArrayList<>();
+        newBody = new SnakeBody(initialPosition, initialDirection, bodySize);
+    }
 
-
-        for(int i = 0; i <= bodySize; i++){
-            body.add(new SnakePoint(new Position(initialPosition.x, initialPosition.y), initialDirection));
-            initialPosition.move(initialDirection);
+    public boolean walk(){
+        if(wouldCollideIfWalk()){
+            return false;
         }
+        newBody.walk();
+
+        return true;
     }
 
-    public void walk(){
-        body.forEach( sp->{
-            sp.move();
-        });
-
+    public void addDirectionChange(SnakeDirection direction){
+        newBody.addDirectionChange(direction);
     }
 
+    private boolean wouldCollideIfWalk(){
+        var simulatedMovement = newBody.getBody().getFirst().simulateMovement();
+        var result = newBody.getBody().stream().skip(1).anyMatch(sp-> sp.getPosition().equals(simulatedMovement.getPosition()));
 
-    public void moveUp(){
-        if(direction == SnakeDirection.LEFT || direction == SnakeDirection.RIGHT)
-            body.forEach( sp->{
-                sp.addTurningPoint(new TurningPoint(getPosition(), SnakeDirection.UP));
-            });
-    }
-
-    public void moveDown(){
-        if(direction == SnakeDirection.LEFT || direction == SnakeDirection.RIGHT)
-            body.forEach( sp->{
-                sp.addTurningPoint(new TurningPoint(getPosition(), SnakeDirection.DOWN));
-            });
-    }
-
-    public void moveLeft(){
-        if(direction == SnakeDirection.UP || direction == SnakeDirection.DOWN)
-            body.forEach( sp->{
-                sp.addTurningPoint(new TurningPoint(getPosition(), SnakeDirection.LEFT));
-            });
-    }
-
-    public void moveRight(){
-        if(direction == SnakeDirection.UP || direction == SnakeDirection.DOWN)
-            body.forEach( sp->{
-                sp.addTurningPoint(new TurningPoint(getPosition(), SnakeDirection.RIGHT));
-            });
+        return result;
     }
 
     //region Getters & Setters
-    public SnakeDirection getDirection(){ return body.get(0).getDirection(); }
-    public Position getPosition(){return body.get(0).getPosition();}
+    public SnakeDirection getDirection(){ return newBody.getDirection(); }
+    public Position getPosition(){return newBody.getPosition(); }
+
+    public List<SnakePoint> getBody() {
+        return newBody.getBody();
+    }
     //endregion
 }

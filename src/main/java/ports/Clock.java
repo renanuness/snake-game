@@ -1,4 +1,5 @@
 package ports;
 
-public class Clock {
+public interface Clock {
+    double getDeltaTime();
 }

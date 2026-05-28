@@ -23,14 +23,27 @@ public class SnakePoint{
     }
 
     public void move(){
-        if(turningPoints.size() > 0 && position.equal(turningPoints.getFirst().getPosition())){
+        if(turningPoints.size() > 0 && position.equals(turningPoints.getFirst().getPosition())){
             var turningPoint = turningPoints.pop();
-            direction = turningPoint.getDirection();
+            if(direction.canSwitch(turningPoint.getDirection()))
+                direction = turningPoint.getDirection();
         }
 
         position.move(direction);
     }
 
+    public SnakePoint simulateMovement(){
+        var newDirection = direction;
+        if(turningPoints.size() > 0 && position.equals(turningPoints.getFirst().getPosition())){
+            var turningPoint = turningPoints.getFirst();
+            if(direction.canSwitch(newDirection))
+                newDirection = turningPoint.getDirection();
+        }
+
+        var newPosition = new Position(position.x, position.y);
+        newPosition.move(newDirection);
+        return new SnakePoint(newPosition, newDirection);
+    }
     public Position getPosition() {
         return position;
     }

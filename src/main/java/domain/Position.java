@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.Objects;
+
 public class Position{
     public int x;
     public int y;
@@ -9,11 +11,16 @@ public class Position{
         this.y = y;
     }
 
+    public Position(Position pos){
+        this.x = pos.x;
+        this.y = pos.y;
+    }
+
     public Position copy(Position pos){
         return new Position(x,y);
     }
-    public void moveUp(){y++;}
-    public void moveDown(){y--;}
+    public void moveUp(){y--;}
+    public void moveDown(){y++;}
     public void moveRight(){x++;}
     public void moveLeft(){x--;}
 
@@ -26,7 +33,19 @@ public class Position{
         }
     }
 
-    public boolean equal(Position pos){
-        return pos.x == x && pos.y == y;
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) return true;
+        if(obj == null) return false;
+        if(getClass() != obj.getClass()) return false;
+
+        var other = (Position) obj;
+        var result = other.x == x && other.y == y;
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }
