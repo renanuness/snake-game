@@ -63,4 +63,21 @@ public class SnakeBody {
     public SnakeDirection getDirection(){
         return body.getFirst().getDirection();
     }
+
+    public void grow() {
+        var direction = body.getLast().getDirection();
+
+        int dx = 0;
+        int dy = 0;
+        switch (direction) {
+            case RIGHT -> dx = -1;
+            case LEFT -> dx = 1;
+            case UP -> dy = 1;
+            case DOWN -> dy = -1;
+        }
+
+        var position = new Position(body.getLast().getPosition().x +dx, body.getLast().getPosition().y +dy);
+
+        body.addLast(new SnakePoint(position, direction));
+    }
 }

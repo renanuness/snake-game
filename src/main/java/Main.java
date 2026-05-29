@@ -1,5 +1,6 @@
 import application.SnakeApplication;
 import application.SnakeGame;
+import infrastructure.ApplicationMode;
 import infrastructure.RaylibClock;
 import infrastructure.RaylibInputHandler;
 import infrastructure.RaylibRenderer;
@@ -11,12 +12,14 @@ public class Main {
     public static void main(String[] args){
         int screenWidth = 1200;
         int screenHeight = 780;
+        //SetConfigFlags(FLAG_WINDOW_RESIZABLE);
         InitWindow(screenWidth, screenHeight, "Snake Game");
+
         SetTargetFPS(60);
         //
         var clock = new RaylibClock();
         var input = new RaylibInputHandler();
-        var render = new RaylibRenderer();
+        var render = new RaylibRenderer(ApplicationMode.DEBUG);
 
         var snakeGame= new SnakeGame(render, clock);
         var app = new SnakeApplication(snakeGame);

@@ -7,6 +7,7 @@ import ports.Renderer;
 
 import java.util.Deque;
 import java.util.List;
+import java.util.Random;
 
 public class SnakeGame implements Screen {
     private final Renderer render;
@@ -15,13 +16,10 @@ public class SnakeGame implements Screen {
     private Fruit fruit;
     private double walkInterval = 0.2;
     private double walkClock = 0.0;
-    // Aqui o jogo é controlado
-    // tem uma snake
-    // tem um board
-    // é preciso lidar com inputs aqui??
-    // e possível pausar o jogo aqui tbm
-    // aqui tem um udpdate que vai fazer o update de todos os itens
-    // instancia a frutta
+    private int score;
+
+    // aqui eu preciso receber o tamanho do board
+
     public SnakeGame(Renderer render, Clock clock){
         this.render = render;
         this.clock = clock;
@@ -29,6 +27,7 @@ public class SnakeGame implements Screen {
         var initialPosition = new Position(5,5);
         var initialDirection = SnakeDirection.RIGHT;
         this.snake = new Snake(initialPosition,initialDirection, bodySize);
+        score = 0;
     }
 
     public void update(Deque<Command> commands){
@@ -48,7 +47,14 @@ public class SnakeGame implements Screen {
             }
         }
 
+        if(fruit == null){
+            instantiateFruit();
+        }else{
+            checkFruitCollision();
+        }
+
         walkClock += clock.getDeltaTime();
+
         if(walkClock > walkInterval){
             walkClock = 0;
 
@@ -63,17 +69,28 @@ public class SnakeGame implements Screen {
 
     @Override
     public void render() {
+        render.drawDebugInfo();
         render.drawSnake(snake);
+        render.drawFruit(fruit);
     }
 
     private void checkFruitCollision(){
         if(fruit == null) return;
 
         if(snake.getPosition().equals(fruit.getPosition())){
-            //TODO: AUMENTAR O SCORE
+            snake.addBody();
+            score += 10;
+            instantiateFruit();
         }
     }
     private void instantiateFruit(){
-        this.fruit = new Fruit(new Position(10, 10), 10);
+        Random random = new Random();
+        var x = random.nextInt(60);
+        var y = random.nextInt(60);
+        x = 59;
+        y = 32;
+        this.fruit = new Fruit(new Position(x, y), 10);
     }
+
+
 }
