@@ -14,10 +14,11 @@ public class SnakeGame implements Screen {
     private final Clock clock;
     private Snake snake;
     private Fruit fruit;
+    private Board board;
     private double walkInterval = 0.2;
     private double walkClock = 0.0;
     private int score;
-
+    private boolean paused;
     // aqui eu preciso receber o tamanho do board
 
     public SnakeGame(Renderer render, Clock clock){
@@ -28,6 +29,8 @@ public class SnakeGame implements Screen {
         var initialDirection = SnakeDirection.RIGHT;
         this.snake = new Snake(initialPosition,initialDirection, bodySize);
         score = 0;
+        this.board = new Board(render.getScreenSize(), 20);
+        paused = false;
     }
 
     public void update(Deque<Command> commands){
@@ -44,7 +47,11 @@ public class SnakeGame implements Screen {
             }
             else if(command == Command.MOVE_RIGHT){
                 snake.addDirectionChange(SnakeDirection.RIGHT);
+            }else if(command == Command.PAUSE){
+                paused = !paused;
             }
+
+
         }
 
         if(fruit == null){
@@ -55,11 +62,15 @@ public class SnakeGame implements Screen {
 
         walkClock += clock.getDeltaTime();
 
-        if(walkClock > walkInterval){
+        if(walkClock > walkInterval && !paused){
             walkClock = 0;
 
             if(snake.walk()){
+                if(board.checkSnakeCollisions(snake.getBody())){
 
+                }else{
+
+                }
 
             }else{
                 //TODO:GAME OVER
@@ -70,6 +81,7 @@ public class SnakeGame implements Screen {
     @Override
     public void render() {
         render.drawDebugInfo();
+        render.drawUI(score);
         render.drawSnake(snake);
         render.drawFruit(fruit);
     }
@@ -80,15 +92,14 @@ public class SnakeGame implements Screen {
         if(snake.getPosition().equals(fruit.getPosition())){
             snake.addBody();
             score += 10;
+            walkInterval -= 0.005;
             instantiateFruit();
         }
     }
     private void instantiateFruit(){
         Random random = new Random();
-        var x = random.nextInt(60);
-        var y = random.nextInt(60);
-        x = 59;
-        y = 32;
+        var x = random.nextInt(59);
+        var y = random.nextInt(32);
         this.fruit = new Fruit(new Position(x, y), 10);
     }
 

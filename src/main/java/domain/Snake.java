@@ -14,6 +14,8 @@ public class Snake {
             return false;
         }
         //
+
+        //se for colidir com a parede deve avisar a cobra
         body.walk();
 
         return true;
@@ -37,8 +39,8 @@ public class Snake {
     public SnakeDirection getDirection(){ return body.getDirection(); }
     public Position getPosition(){return body.getPosition(); }
 
-    public List<SnakePoint> getBody() {
-        return body.getBody();
+    public SnakeBody getBody() {
+        return body;
     }
     //endregion
 }
