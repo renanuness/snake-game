@@ -29,10 +29,11 @@ public class Snake {
         body.grow();
     }
     private boolean wouldCollideIfWalk(){
-        var simulatedMovement = body.getBody().getFirst().simulateMovement();
-        var result = body.getBody().stream().skip(1).anyMatch(sp-> sp.getPosition().equals(simulatedMovement.getPosition()));
-
-        return result;
+        return body.wouldCollideIfWalk();
+//        var simulatedMovement = body.getBody().getFirst().simulateMovement();
+//        var result = body.getBody().stream().skip(1).anyMatch(sp-> sp.getPosition().equals(simulatedMovement.getPosition()));
+//
+//        return result;
     }
 
     //region Getters & Setters

@@ -52,6 +52,13 @@ public class SnakeBody {
         });
     }
 
+    public boolean wouldCollideIfWalk(){
+        var simulatedMovement = body.getFirst().simulateMovement();
+        var result = body.stream().skip(1).anyMatch(sp-> sp.getPosition().equals(simulatedMovement.getPosition()));
+
+        return result;
+    }
+
     public Position getPosition(){
         return new Position(body.getFirst().getPosition());
     }
