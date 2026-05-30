@@ -19,6 +19,7 @@ public class RaylibInputHandler implements InputHandler {
         setBinding(KEY_A, Command.MOVE_LEFT);
         setBinding(KEY_W, Command.MOVE_UP);
         setBinding(KEY_S, Command.MOVE_DOWN);
+        setBinding(KEY_P, Command.PAUSE);
     }
 
     public void setBinding(int raylibKey, Command command){

@@ -149,7 +149,7 @@ public class SnakeTest {
         var initialPosition = new Position(5,5);
         var snake = new Snake(initialPosition,SnakeDirection.UP, 3);
         snake.walk();
-        assertEquals(6, snake.getPosition().y);
+        assertEquals(4, snake.getPosition().y);
         assertEquals(5, snake.getPosition().x);
     }
 
@@ -177,7 +177,7 @@ public class SnakeTest {
         assertTrue(snake.getPosition().equals(initialPosition));
         assertTrue(snake.getPosition().equals(initialPosition));
 
-        var body = snake.getBody();
+        var body = snake.getBody().getBody();
         for(var sp: body) {
             assertTrue(sp.getPosition().equals(initialPosition));
             initialPosition.move(SnakeDirection.UP);
@@ -219,6 +219,7 @@ public class SnakeTest {
         snake.addDirectionChange(SnakeDirection.RIGHT);
         snake.addDirectionChange(SnakeDirection.DOWN);
 
+        snake.walk();
         snake.walk();
         snake.walk();
         snake.walk();

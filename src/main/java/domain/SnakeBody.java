@@ -65,7 +65,8 @@ public class SnakeBody {
     }
 
     public void grow() {
-        var direction = body.getLast().getDirection();
+        var last = body.getLast();
+        var direction = last.getDirection();
 
         int dx = 0;
         int dy = 0;
@@ -77,7 +78,10 @@ public class SnakeBody {
         }
 
         var position = new Position(body.getLast().getPosition().x +dx, body.getLast().getPosition().y +dy);
-
-        body.addLast(new SnakePoint(position, direction));
+        var newSnakePoint = new SnakePoint(position, direction);
+        for(var tp: last.getTurningPoints()) {
+            newSnakePoint.addTurningPoint(new TurningPoint(new Position(tp.getPosition()), tp.getDirection()));
+        }
+        body.addLast(newSnakePoint);
     }
 }
