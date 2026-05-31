@@ -4,18 +4,23 @@ import static com.raylib.Raylib.*;
 
 import com.raylib.Colors;
 import domain.Fruit;
+import domain.Obstacle;
 import domain.ScreenSize;
 import domain.Snake;
+import domain.UI.Button;
 import ports.Renderer;
+
+import java.util.List;
 
 public class RaylibRenderer implements Renderer {
     private ScreenSize screenSize;
-
+    private int squareSize;
     private final ApplicationMode applicationMode;
 
     public RaylibRenderer(ApplicationMode mode){
         this.applicationMode = mode;
         screenSize = new ScreenSize(GetScreenWidth(), GetScreenHeight());
+        squareSize = screenSize.width() / 60;
     }
 
     public ScreenSize getScreenSize(){
@@ -25,7 +30,7 @@ public class RaylibRenderer implements Renderer {
     @Override
     public void drawDebugInfo(){
         var screenSize = getScreenSize();
-        var squareSize = screenSize.width() / 60;
+
         DrawText("Square size: "+squareSize, 5, 10, 22,Colors.BLACK);
         DrawText("Screen size: "+screenSize.width() +"x"+screenSize.height(), 5, 80, 22,Colors.BLACK);
 
@@ -43,7 +48,6 @@ public class RaylibRenderer implements Renderer {
     @Override
     public void drawSnake(Snake snake) {
         var screenSize = getScreenSize();
-        var squareSize = screenSize.width() / 60;
 
         for(var snakePoint: snake.getBody().getBody()){
             var pos = snakePoint.getPosition();
@@ -58,7 +62,6 @@ public class RaylibRenderer implements Renderer {
     @Override
     public void drawFruit(Fruit fruit) {
         var screenSize = getScreenSize();
-        var squareSize = screenSize.width() / 60;
 
         var pos = fruit.getPosition();
         DrawCircle(pos.x*squareSize+(squareSize/2), pos.y*squareSize+(squareSize/2), squareSize/4, Colors.DARKPURPLE);
@@ -74,6 +77,22 @@ public class RaylibRenderer implements Renderer {
         DrawText("Points "+score, screenSize.width()/2 , 11, 22,Colors.BLACK);
     }
 
+    @Override
+    public void drawBoard(List<Obstacle> obstacles){
+        for(var obstacle: obstacles){
+            var pos = obstacle.getPosition();
+            DrawRectangle(pos.x*20, pos.y*squareSize, squareSize, squareSize, Colors.BLACK);
+        }
+    }
 
+    //region UI ELEMENTS
+
+    @Override
+    public void drawButton(Button button) {
+        var pos = button.getPosition();
+        DrawRectangleLines(pos.x*20, pos.y*squareSize, squareSize, squareSize, Colors.BLACK);
+    }
+
+    //endregion
 }
 

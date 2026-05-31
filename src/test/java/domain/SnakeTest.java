@@ -212,14 +212,13 @@ public class SnakeTest {
     @Test
     public void colliding_it_self_cant_move(){
         var initialPosition = new Position(5,5);
-        var snake = new Snake(initialPosition,SnakeDirection.DOWN, 4);
+        var snake = new Snake(initialPosition,SnakeDirection.DOWN, 5);
 
         snake.addDirectionChange(SnakeDirection.LEFT);
         snake.addDirectionChange(SnakeDirection.UP);
         snake.addDirectionChange(SnakeDirection.RIGHT);
         snake.addDirectionChange(SnakeDirection.DOWN);
 
-        snake.walk();
         snake.walk();
         snake.walk();
         snake.walk();

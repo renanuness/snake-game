@@ -11,6 +11,7 @@ import java.util.List;
 
 public class SnakeApplication {
 
+    private final Menu menu;
     private Screen currentScreen;
 
     private SnakeGame snakeGame;
@@ -19,9 +20,10 @@ public class SnakeApplication {
     // saber quais inputs foram recebidas
     // preciso chamar o estado atual para repassar os commands e o tempo
     //
-    public SnakeApplication(SnakeGame snakeGame){
+    public SnakeApplication(Menu menu, SnakeGame snakeGame){
         this.snakeGame = snakeGame;
-        currentScreen = snakeGame;
+        this.menu = menu;
+        currentScreen = menu;
     }
 
     public void update(Deque<Command> commands){

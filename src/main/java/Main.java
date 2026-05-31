@@ -1,3 +1,4 @@
+import application.Menu;
 import application.SnakeApplication;
 import application.SnakeGame;
 import infrastructure.ApplicationMode;
@@ -21,8 +22,10 @@ public class Main {
         var input = new RaylibInputHandler();
         var render = new RaylibRenderer(ApplicationMode.DEBUG);
 
+        var menu = new Menu(render);
         var snakeGame= new SnakeGame(render, clock);
-        var app = new SnakeApplication(snakeGame);
+
+        var app = new SnakeApplication(menu, snakeGame);
         //
 
         while (!WindowShouldClose()){

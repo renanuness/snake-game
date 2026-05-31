@@ -19,6 +19,7 @@ public class SnakeGame implements Screen {
     private double walkClock = 0.0;
     private int score;
     private boolean paused;
+    private boolean gameOver;
     // aqui eu preciso receber o tamanho do board
 
     public SnakeGame(Renderer render, Clock clock){
@@ -31,6 +32,7 @@ public class SnakeGame implements Screen {
         score = 0;
         this.board = new Board(render.getScreenSize(), 20);
         paused = false;
+        gameOver = false;
     }
 
     public void update(Deque<Command> commands){
@@ -62,17 +64,11 @@ public class SnakeGame implements Screen {
 
         walkClock += clock.getDeltaTime();
 
-        if(walkClock > walkInterval && !paused){
+        if(walkClock > walkInterval && !paused && !gameOver){
             walkClock = 0;
 
-            if(snake.walk()){
-                if(board.checkSnakeCollisions(snake.getBody())){
-
-                }else{
-
-                }
-
-            }else{
+            if(!board.checkSnakeCollisions(snake.getBody()) || !snake.walk()){
+                gameOver = true;
                 //TODO:GAME OVER
             }
         }
@@ -81,8 +77,9 @@ public class SnakeGame implements Screen {
     @Override
     public void render() {
         render.drawDebugInfo();
-        render.drawUI(score);
         render.drawSnake(snake);
+        render.drawBoard(board.getObstacles());
+        render.drawUI(score);
         render.drawFruit(fruit);
     }
 
