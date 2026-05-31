@@ -10,15 +10,7 @@ public class Snake {
     }
 
     public boolean walk(){
-        if(wouldCollideIfWalk()){
-            return false;
-        }
-        //
-
-        //se for colidir com a parede deve avisar a cobra
-        body.walk();
-
-        return true;
+        return body.walk();
     }
 
     public void addDirectionChange(SnakeDirection direction){
@@ -30,10 +22,6 @@ public class Snake {
     }
     private boolean wouldCollideIfWalk(){
         return body.wouldCollideIfWalk();
-//        var simulatedMovement = body.getBody().getFirst().simulateMovement();
-//        var result = body.getBody().stream().skip(1).anyMatch(sp-> sp.getPosition().equals(simulatedMovement.getPosition()));
-//
-//        return result;
     }
 
     //region Getters & Setters

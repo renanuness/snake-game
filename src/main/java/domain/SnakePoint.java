@@ -35,11 +35,12 @@ public class SnakePoint{
     public void moveTo(int x, int y){
         position.moveTo(x,y);
     }
+
     public SnakePoint simulateMovement(){
         var newDirection = direction;
         if(turningPoints.size() > 0 && position.equals(turningPoints.getFirst().getPosition())){
             var turningPoint = turningPoints.getFirst();
-            if(direction.canSwitch(newDirection))
+            if(direction.canSwitch(turningPoint.getDirection()))
                 newDirection = turningPoint.getDirection();
         }
 
@@ -47,6 +48,7 @@ public class SnakePoint{
         newPosition.move(newDirection);
         return new SnakePoint(newPosition, newDirection);
     }
+
     public Position getPosition() {
         return position;
     }

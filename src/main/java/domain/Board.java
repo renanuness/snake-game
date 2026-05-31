@@ -1,12 +1,25 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
     private int horizontalSquares;
     private int verticalSquares;
 
+    // Obstacles and border
+    private List<Obstacle> obstacles;
+
     public Board(ScreenSize screenSize, int squareSize){
         horizontalSquares = screenSize.width()/ squareSize;
         verticalSquares = screenSize.height()/ squareSize;
+
+        obstacles = new ArrayList<>();
+        obstacles.add(new Obstacle(new Position(20,20)));
+    }
+
+    public List<Obstacle> getObstacles(){
+        return obstacles;
     }
 
     public boolean checkSnakeCollisions(SnakeBody snakeBody){
@@ -29,6 +42,13 @@ public class Board {
                 sn.moveTo(newX, newY);
             }
         }
+
+        for(var obstacle: obstacles){
+            if(obstacle.isColliding(snakeBody.getPosition())){
+                return false;
+            }
+        }
+
         return true;
     }
 }

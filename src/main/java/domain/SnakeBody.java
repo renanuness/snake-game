@@ -35,7 +35,7 @@ public class SnakeBody {
         directionPoll.add(newDirection);
     }
 
-    public void walk(){
+    public boolean walk(){
         if(directionPoll.size() > 0){
             var newDirection = directionPoll.pop();
             if(getDirection().canSwitch(newDirection)){
@@ -46,10 +46,15 @@ public class SnakeBody {
                 System.out.println("Cant move from " + getDirection() + " to " + newDirection);
             }
         }
-
+        if(wouldCollideIfWalk())
+        {
+            return false;
+        }
         body.forEach(sp->{
             sp.move();
         });
+
+        return true;
     }
 
     public boolean wouldCollideIfWalk(){
