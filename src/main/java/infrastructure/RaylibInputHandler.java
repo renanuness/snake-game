@@ -1,6 +1,9 @@
 package infrastructure;
 
+import application.interfaces.Screen;
 import domain.Command;
+import domain.MouseClick;
+import domain.Position;
 import ports.InputHandler;
 
 import java.util.*;
@@ -9,6 +12,9 @@ import static com.raylib.Raylib.*;
 
 public class RaylibInputHandler implements InputHandler {
     private Map<Integer, Command> keyToCommand = new HashMap<>();
+    private MouseClick mouseClick;
+    private Screen currentScreen;
+    // Recebe os buttons aqui;
 
     public RaylibInputHandler(){
         setBinding(KEY_RIGHT, Command.MOVE_RIGHT);
@@ -20,6 +26,9 @@ public class RaylibInputHandler implements InputHandler {
         setBinding(KEY_W, Command.MOVE_UP);
         setBinding(KEY_S, Command.MOVE_DOWN);
         setBinding(KEY_P, Command.PAUSE);
+    }
+    public void setCurrentScreen(Screen screen){
+        currentScreen = screen;
     }
 
     public void setBinding(int raylibKey, Command command){
@@ -34,9 +43,33 @@ public class RaylibInputHandler implements InputHandler {
                 commands.push(entry.getValue());
             }
         }
-        for(var c: commands){
-            System.out.println(c);
+
+
+        if(currentScreen != null) {
+            var raytlibMousePosition = GetMousePosition();
+            var mousePosition = new Position((int) raytlibMousePosition.x(), (int) raytlibMousePosition.y());
+            var mouseClicks = new ArrayDeque<MouseClick>();
+            if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                mouseClicks.push(new MouseClick(0, mousePosition));
+            }
+
+            for(var mouseClick : mouseClicks) {
+                for(var button: currentScreen.getButtons()){
+                    if()
+                    button.click();
+                }
+                // checar se cada click foi dado em algum dos botões
+            }
         }
+//        else if (IsMouseButtonPressed(MOUSE_BUTTON_MIDDLE)) ballColor = LIME;
+//        else if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) ballColor = DARKBLUE;
+//        else if (IsMouseButtonPressed(MOUSE_BUTTON_SIDE)) ballColor = PURPLE;
+//        else if (IsMouseButtonPressed(MOUSE_BUTTON_EXTRA)) ballColor = YELLOW;
+//        else if (IsMouseButtonPressed(MOUSE_BUTTON_FORWARD)) ballColor = ORANGE;
+//        else if (IsMouseButtonPressed(MOUSE_BUTTON_BACK)) ballColor = BEIGE;
+
+
         return commands;
     }
+
 }
